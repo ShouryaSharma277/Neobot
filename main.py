@@ -4,6 +4,8 @@ import requests
 import json
 import random
 from replit import db
+from mainServer import runServer
+import wikipedia
 
 client = discord.Client()
 
@@ -66,6 +68,13 @@ def get_joke():
   data = requests.get(link)
   joke =json.loads(data.text)
   return joke
+
+
+def wiki_summary(arg):
+  definition = wikipedia.summary(arg, sentences=3, chars=1000,
+  auto_suggest=True, redirect=True
+  )
+  return definition
 
 
 @client.event
@@ -153,26 +162,38 @@ async def on_message(message):
   if message.content.startswith("$add"):
     n1 = int(msg.split()[1])
     n2 = int(msg.split()[3])
-    sum = add(n1, n2)
-    await message.channel.send(f"The Sum is {sum}")
+    sum = discord.Embed(title="Sum", description=add(n1, n2), colour=discord.Colour.purple())
+    await message.channel.send(content=None, embed=sum)
 
   if message.content.startswith("$subtract"):
     n1 = int(msg.split()[1])
     n2 = int(msg.split()[3])
-    difference = sub(n1, n2)
-    await message.channel.send(f"The Difference is {difference}")
+    difference = discord.Embed(title="Difference", description=sub(n1, n2), colour=discord.Colour.purple())
+    await message.channel.send(content=None, embed=difference)
 
   if message.content.startswith("$divide"):
     n1 = int(msg.split()[1])
     n2 = int(msg.split()[3])
-    quotient = div(n1, n2)
-    await message.channel.send(f"The quotient is {quotient}")
+    quotient = discord.Embed(title="Quotient", description=div(n1, n2), colour=discord.Colour.purple())
+    await message.channel.send(content=None, embed=quotient)
 
   if message.content.startswith("$multiply"):
     n1 = int(msg.split()[1])
     n2 = int(msg.split()[3])
-    product = mul(n1, n2)
-    await message.channel.send(f"The product is {product}")
+    product = discord.Embed(title="Product", description=mul(n1, n2), colour=discord.Colour.purple())
+    await message.channel.send(content=None, embed=product)
+
+  words = message.content.split()
+  important_words = words[1:]
+
+  if message.content.startswith("$define"):
+    words = message.content.split()
+    important_words = words[1:]
+    search=discord.Embed(title="Searching...", description=wiki_summary(important_words), colour=discord.Colour.purple())
+    await message.channel.send(content=None, embed=search)
   
+
+# Starting the Web Server
+runServer()
 
 client.run(os.environ['TOKEN'])
