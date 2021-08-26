@@ -7,6 +7,22 @@ from replit import db
 
 client = discord.Client()
 
+
+# Calculator Functions
+def sub(n1: float , n2: float):#Subtraction
+  return n1 - n2
+
+def add(n1: float, n2: float):#Addition
+  return n1 + n2
+
+def div(n1: float, n2: float):#Division
+  return n1 / n2
+
+def mul(n1:float, n2: float):#Multiplication
+  return n1 * n2
+
+
+
 # Motivator
 sad_words = ['sad', 'depressed', 'unhappy', 'angry', 'depressing']
 
@@ -97,7 +113,7 @@ async def on_message(message):
 
 
   # Help Message
-  help_message = "Hi, my name is cool bot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "1. I can search for thought for the day: Use keyword thought, Crack Some jokes with you etc.: Use keyword joke" + "\n" + "I am still under development.Also it is case sensitive so type the commands properly" + "\n" + "\n" + "Owner: Shourya Sharma"
+  help_message = "Hi, my name is cool bot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "1. I can search for thought for the day: Use keyword thought, Crack Some jokes with you etc.: Use keyword joke" + "\n" + "Act as a calculator, for that use the following commands:" + "\n" + "Addition: $add 2 + 4(u can use any number in place of 4 and 2 just type the command properly)" + "\n" + "Subtraction: $subtract 4 - 2" + "\n" + "Division: $divide 4 / 2" + "\n" + "Multiplication: $multiply 4 * 2" + "\n" + "I am still under development. Also I am case sensitive so type the commands properly" + "\n" + "\n" + "Owner: Shourya Sharma"
 
 
   if message.content.startswith('help') or message.content.startswith('Help'):
@@ -133,5 +149,30 @@ async def on_message(message):
     else:
       db["responding"] = False
       await message.channel.send("Now, the bot will not respond to sad messages")
+
+  if message.content.startswith("$add"):
+    n1 = int(msg.split()[1])
+    n2 = int(msg.split()[3])
+    sum = add(n1, n2)
+    await message.channel.send(f"The Sum is {sum}")
+
+  if message.content.startswith("$subtract"):
+    n1 = int(msg.split()[1])
+    n2 = int(msg.split()[3])
+    difference = sub(n1, n2)
+    await message.channel.send(f"The Difference is {difference}")
+
+  if message.content.startswith("$divide"):
+    n1 = int(msg.split()[1])
+    n2 = int(msg.split()[3])
+    quotient = div(n1, n2)
+    await message.channel.send(f"The quotient is {quotient}")
+
+  if message.content.startswith("$multiply"):
+    n1 = int(msg.split()[1])
+    n2 = int(msg.split()[3])
+    product = mul(n1, n2)
+    await message.channel.send(f"The product is {product}")
+  
 
 client.run(os.environ['TOKEN'])
