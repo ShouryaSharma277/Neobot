@@ -122,7 +122,7 @@ async def on_message(message):
 
 
   # Help Message
-  help_message = "Hi, my name is cool bot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "1. I can search for thought for the day: Use keyword thought, Crack Some jokes with you etc.: Use keyword joke" + "\n" + "Act as a calculator, for that use the following commands:" + "\n" + "Addition: $add 2 + 4(u can use any number in place of 4 and 2 just type the command properly)" + "\n" + "Subtraction: $subtract 4 - 2" + "\n" + "Division: $divide 4 / 2" + "\n" + "Multiplication: $multiply 4 * 2" + "\n" + "I am still under development. Also I am case sensitive so type the commands properly" + "\n" + "\n" + "Owner: Shourya Sharma"
+  help_message = "Hi, my name is Neobot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "1. I can search for thought for the day: Use keyword thought, Crack Some jokes with you etc.: Use keyword joke" + "\n" + "Act as a calculator, for that use the following commands:" + "\n" + "Addition: $add 2 + 4(u can use any number in place of 4 and 2 just type the command properly)" + "\n" + "Subtraction: $subtract 4 - 2" + "\n" + "Division: $divide 4 / 2" + "\n" + "Multiplication: $multiply 4 * 2" + "\n" + "I am still under development. Also I am case sensitive so type the commands properly" + "\n" + "\n" + "Owner: Shourya Sharma"
 
 
   if message.content.startswith('help') or message.content.startswith('Help'):
