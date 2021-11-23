@@ -2,42 +2,18 @@ import discord
 import os
 import requests
 import json
-import random
-from replit import db
 from mainServer import runServer
 import wikipedia
+import pyjokes
+from translate import Translator
 
 client = discord.Client()
 
-
-# Calculator Functions
-def sub(n1: float, n2: float):  #Subtraction
-    return n1 - n2
-
-
-def add(n1: float, n2: float):  #Addition
-    return n1 + n2
-
-
-def div(n1: float, n2: float):  #Division
-    return n1 / n2
-
-
-def mul(n1: float, n2: float):  #Multiplication
-    return n1 * n2
-
-
-# Motivator
-# sad_words = ['sad', 'depressed', 'unhappy', 'angry', 'depressing']
-
-# starter_encouragements = [
-#   'Cheer up!',
-#   'Hang in there!',
-#   'You are a great person'
-# ]
-
-if "responding" not in db.keys():
-    db["responding"] = True
+# Translator
+def getTranslation(from_lang, to_lang, text):
+  translator = Translator(to_lang=to_lang, from_lang=from_lang)
+  translation = translator.translate(text)
+  return translation
 
 
 # Miscellaneous
@@ -48,27 +24,14 @@ def get_quote():
     return quote
 
 
-# def update_encouragements(encouraging_message):
-#   if "encouragements" in db.keys():
-#     encouragements = db["encouragements"]
-#     encouragements.append(encouraging_message)
-#     db["encouragements"] = encouragements
-#   else:
-#     db["encouragements"] = [encouraging_message]
-#     db["encouragements"].append(starter_encouragements)
-
-# def delete_encouraging_message(index):
-#   encouragements = db["encouragements"]
-#   if len(encouragements) > index:
-#     del encouragements[index]
-#   db["encouragements"] = encouragements
+def get_a_joke():
+    joke = pyjokes.get_joke(language="en", category="neutral")
+    return joke
 
 
-# def get_joke():
-#     link = "https://official-joke-api.appspot.com/random_joke"
-#     data = requests.get(link)
-#     joke = json.loads(data.text)
-#     return joke
+def t_twister():
+    t = pyjokes.get_joke(language="de", category="twister")
+    return t
 
 
 def wiki_summary(arg):
@@ -90,17 +53,18 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('Hi'):
-        await message.channel.send('Hi!\nNice to meet you')
+    greeting1 = "Hi"
+    greeting2 = "Hello"
+    greet = "Hi, I am neobot, your personal companion"
 
-    if message.content.startswith('hi'):
-        await message.channel.send('Hi!\nNice to meet you')
+    if message.content.startswith(greeting1) or message.content.startswith(
+            greeting2):
+        await message.channel.send(greet)
 
-    if message.content.startswith('Hello'):
-        await message.channel.send('Hi!\nNice to meet you')
-
-    if message.content.startswith('hello'):
-        await message.channel.send('Hi!\nNice to meet you')
+    elif message.content.startswith(
+            greeting1.lower()) or message.content.startswith(
+                greeting2.lower()):
+        await message.channel.send(greet)
 
     if message.content.startswith('thought'):
         quote = get_quote()
@@ -109,43 +73,25 @@ async def on_message(message):
     msg = message.content
 
     # Help Message
-    help_message = "Hi, my name is Neobot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "1. I can search for thought for the day: Use keyword thought" + "\n" + "Act as a calculator, for that use the following commands:" + "\n" + "Addition: $add 2 + 4(u can use any number in place of 4 and 2 just type the command properly)" + "\n" + "Subtraction: $subtract 4 - 2" + "\n" + "Division: $divide 4 / 2" + "\n" + "Multiplication: $multiply 4 * 2" + "\n" + "I can also make a quick wikipedia search for you, command: $search 'The word'" + "\n" + "I am case sensitive so type the commands properly" + "\n" + "\n" + "Developer: Shourya Sharma"
+    help_message = "Hi, my name is Neobot." + "\n" + "I am a bot which can do lot of stuff for you like" + "\n" + "I can search for thought for the day: Use keyword thought, crack a joke use keyword $joke" + "\n" + "Share some tongue twisters use command $twister, Act as a calculator, for that use the following command:" + "\n" + "$calc: 4-3" + "\n" + "I can also make a quick wikipedia search for you, command: $search 'The word', I can also act as a translator, for example: $translate ,spanish,english,buenos dias" + "\n" + "I am case sensitive so type the commands properly, and copy the exact command" + "\n" + "\n" + "Developer: Shourya Sharma"
+
+    myColour = discord.Colour.random()
+
+    help_final = discord.Embed(title="About me",
+                               description=help_message,
+                               colour=myColour)
 
     if message.content.startswith('help') or message.content.startswith(
             'Help'):
-        await message.channel.send(help_message)
+        await message.channel.send(content=None, embed=help_final)
 
-    if message.content.startswith("$add"):
-        n1 = int(msg.split()[1])
-        n2 = int(msg.split()[3])
-        sum = discord.Embed(title="Sum",
-                            description=add(n1, n2),
-                            colour=discord.Colour.purple())
-        await message.channel.send(content=None, embed=sum)
-
-    if message.content.startswith("$subtract"):
-        n1 = int(msg.split()[1])
-        n2 = int(msg.split()[3])
-        difference = discord.Embed(title="Difference",
-                                   description=sub(n1, n2),
-                                   colour=discord.Colour.purple())
-        await message.channel.send(content=None, embed=difference)
-
-    if message.content.startswith("$divide"):
-        n1 = int(msg.split()[1])
-        n2 = int(msg.split()[3])
-        quotient = discord.Embed(title="Quotient",
-                                 description=div(n1, n2),
-                                 colour=discord.Colour.purple())
-        await message.channel.send(content=None, embed=quotient)
-
-    if message.content.startswith("$multiply"):
-        n1 = int(msg.split()[1])
-        n2 = int(msg.split()[3])
-        product = discord.Embed(title="Product",
-                                description=mul(n1, n2),
-                                colour=discord.Colour.purple())
-        await message.channel.send(content=None, embed=product)
+    if message.content.startswith("$calc"):
+        msg = msg.split(':', 2)
+        result = msg[1] + '=' + str(eval(msg[1]))
+        final_result = discord.Embed(title="Result",
+                                     description=result,
+                                     colour=discord.Colour.random())
+        await message.channel.send(content=None, embed=final_result)
 
     words = message.content.split()
     important_words = words[1:]
@@ -157,6 +103,20 @@ async def on_message(message):
                                description=wiki_summary(important_words),
                                colour=discord.Colour.purple())
         await message.channel.send(content=None, embed=search)
+
+    if message.content.startswith("joke"):
+        final_joke = get_a_joke()
+        await message.channel.send(final_joke)
+
+    if message.content.startswith("twister"):
+        final_twister = t_twister()
+        await message.channel.send(final_twister)
+
+    
+    if message.content.startswith("$translate"):
+        msg = msg.split(',', 4)
+        final_translated = getTranslation(to_lang=msg[2], from_lang=msg[1], text=msg[3])
+        await message.channel.send(final_translated)
 
 
 # Starting the Web Server
