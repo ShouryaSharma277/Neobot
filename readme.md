@@ -1,6 +1,6 @@
-# Neobot
+# Winter
 
-Neobot is a discord bot which can do a lot of stuff for you:
+Winter is a discord bot which can do a lot of stuff for you:
 
 1. It can perform basic mathematic calculations
 
@@ -16,7 +16,7 @@ Neobot is a discord bot which can do a lot of stuff for you:
 ## Usage/Examples
 Discord Server Link
 ```link
-https://discord.gg/WGSfBtgH
+https://discord.gg/rGHuuCZA
 ```
 
   
