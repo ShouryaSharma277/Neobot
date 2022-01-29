@@ -10,7 +10,9 @@ Winter is a discord bot which can do a lot of stuff for you:
 
 4. Crack some jokes
 
-5. For more details type the help command
+5. And much more
+
+6. For more details type the $help command
 
 
 ## Usage/Examples
