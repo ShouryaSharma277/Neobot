@@ -6,6 +6,8 @@ from mainServer import runServer
 import wikipedia
 import pyjokes
 from translate import Translator
+import aiohttp
+import random
 
 client = discord.Client()
 
@@ -76,7 +78,7 @@ async def on_message(message):
                                description=help_message,
                                colour=myColour)
 
-    if message.content.startswith('help') or message.content.startswith(
+    if message.content.startswith('$help') or message.content.startswith(
             'Help'):
         await message.channel.send(content=None, embed=help_final)
 
@@ -121,6 +123,17 @@ async def on_message(message):
                                           from_lang=msg[1],
                                           text=msg[3])
         await message.channel.send(final_translated)
+
+    memeEmbed = discord.Embed(title='', description='')
+    if message.content.startswith("$meme"):
+      async with aiohttp.ClientSession() as cs:
+        async with cs.get('https://www.reddit.com/r/dankmemes/new.json?sort=hot') as r:
+            res = await r.json()
+            memeEmbed.set_image(url=res['data']['children'] [random.randint(0, 25)]['data']['url'])
+            await message.channel.send(embed=memeEmbed)
+          
+
+
 
 
 # Starting the Web Server
