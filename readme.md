@@ -16,7 +16,7 @@ Winter is a discord bot which can do a lot of stuff for you:
 
 
 ## Usage/Examples
-
+Discord Server Link
 ```link
 Link for the discord server: 
 https://discord.gg/pVC83GM37z
