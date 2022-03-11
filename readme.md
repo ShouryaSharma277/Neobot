@@ -12,13 +12,14 @@ Winter is a discord bot which can do a lot of stuff for you:
 
 5. And much more
 
-6. For more details type the $help command
+6. For more details type the .help command
 
 
 ## Usage/Examples
 
 ```link
-Link for the discord server: https://discord.gg/WGSfBtgH
+Link for the discord server: 
+https://discord.gg/pVC83GM37z
 ```
 
   
